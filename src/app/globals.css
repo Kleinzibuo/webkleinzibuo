@@ -1,26 +1,47 @@
 @import "tailwindcss";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 :root {
   --background: #ffffff;
   --foreground: #171717;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html, body, #__next {
+  height: 100%;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
+
+/* small helper for floating phone mockup */
+.phone-mockup {
+  border-radius: 28px;
+  box-shadow: 0 20px 40px rgba(2,6,23,0.12);
+  overflow: hidden;
+  background: white;
+}
+
+/* Phone frame styling */
+.phone-frame {
+  border-radius: 28px;
+  overflow: hidden;
+  box-shadow: 0 18px 40px rgba(2,6,23,0.12);
+  border: 1px solid rgba(255,255,255,0.6);
+}
+
+/* Responsive tweaks for hero */
+@media (max-width: 768px) {
+  .phone-frame img { height: 300px; object-fit: cover; }
+}
+
+/* subtle entrance animation fallback (optional) */
+@keyframes subtleFloat {
+  0% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(-6px) rotate(1deg); }
+  100% { transform: translateY(0) rotate(0deg); }
+}
+.phone-frame { animation: subtleFloat 6s ease-in-out infinite; }
