@@ -1,4 +1,4 @@
-// app/layout.tsx
+
 "use client";
 
 import Footer from "@/components/Footer";
@@ -35,7 +35,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <Header onNavigate={handleNavigate} currentPage={currentPage} />
         <main>{children}</main>
         <Footer />
-        {/* Footer goes here later */}
       </body>
     </html>
   );

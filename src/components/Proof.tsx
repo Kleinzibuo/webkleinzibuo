@@ -15,10 +15,9 @@ export default function Proof({ onNavigate }: HomePageProps)  {
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto">
             <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5 }}
-              viewport={{ once: true }}
+     initial={{ opacity: 0, x: -20 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={{ duration: 0.6 }}
               className="bg-gradient-to-br from-[#F8F9FA] to-white p-8 rounded-3xl shadow-lg border border-gray-100"
             >
               <div className="flex gap-1 mb-4">
