@@ -50,7 +50,11 @@ export default function FeaturesPage({ onNavigate }: FeaturesPageProps) {
               className="relative"
             >
               <div className="relative rounded-3xl overflow-hidden shadow-2xl h-96 bg-gray-100 flex items-center justify-center">
-                <span className="text-gray-400">Image Placeholder</span>
+                            <img
+                src="/1000527526.jpg"
+                alt="KleinZibuo"
+                className="absolute inset-0 w-full h-full object-contain"
+              />
               </div>
             </motion.div>
 
@@ -161,7 +165,11 @@ export default function FeaturesPage({ onNavigate }: FeaturesPageProps) {
               className="relative lg:order-2 order-1"
             >
               <div className="relative rounded-3xl overflow-hidden shadow-2xl h-96 bg-gray-100 flex items-center justify-center">
-                <span className="text-gray-400">Image Placeholder</span>
+                         <img
+                src="/1000526444.jpg"
+                alt="KleinZibuo"
+                className="absolute inset-0 w-full h-full object-contain"
+              />
               </div>
             </motion.div>
           </div>

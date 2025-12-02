@@ -78,7 +78,7 @@ export default function Hero({ onNavigate }: HomePageProps) {
           >
              <div className="rounded-2xl overflow-hidden shadow-2xl border border-white/10">
                 {/* inner area shows kids.jpg slightly blurred as contextual scene */}
-                <div className="h-[420px] w-full bg-cover bg-center" style={{ backgroundImage: "url('/kids.jpg')" }} aria-hidden />
+                <div className="h-[420px] w-full bg-cover bg-center" style={{ backgroundImage: "url('/1000527542.jpg')" }} aria-hidden />
               </div>
           </motion.div>
         </div>

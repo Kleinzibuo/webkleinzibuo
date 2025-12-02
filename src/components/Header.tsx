@@ -2,6 +2,8 @@
 import { useState, useEffect } from 'react';
 import { Menu, X } from 'lucide-react';
 
+
+
 interface HeaderProps {
   onNavigate: (page: string) => void;
   currentPage: string;
@@ -21,44 +23,44 @@ export default function Header({ onNavigate, currentPage }: HeaderProps) {
 
   return (
     <header
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        isScrolled ? 'bg-white shadow-md' : 'bg-white/95 backdrop-blur-sm'
-      }`}
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${isScrolled ? 'bg-white shadow-md' : 'bg-white/95 backdrop-blur-sm'
+        }`}
     >
       <div className="container mx-auto px-6 py-4">
         <div className="flex items-center justify-between">
           {/* Logo */}
           <button
             onClick={() => onNavigate('home')}
-            className="flex items-center hover:opacity-80 transition-opacity"
+            className="w-[15rem] h-[2rem] flex items-center hover:opacity-80 transition-opacity"
           >
-            {/* <img src={logo} alt="KleinZibuo" className="h-10 w-auto" /> */}
-              <span>logo here</span>
+            <img
+              src="/kleinzibu_logo.png"
+              alt="KleinZibuo"
+              className="w-full h-auto"
+            />
           </button>
+
 
           {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center space-x-8">
             <button
               onClick={() => onNavigate('home')}
-              className={`transition-colors ${
-                currentPage === 'home' ? 'text-[#E82D86]' : 'text-gray-600 hover:text-[#E82D86]'
-              }`}
+              className={`transition-colors ${currentPage === 'home' ? 'text-[#E82D86]' : 'text-gray-600 hover:text-[#E82D86]'
+                }`}
             >
               Home
             </button>
             <button
               onClick={() => onNavigate('features')}
-              className={`transition-colors ${
-                currentPage === 'features' ? 'text-[#E82D86]' : 'text-gray-600 hover:text-[#E82D86]'
-              }`}
+              className={`transition-colors ${currentPage === 'features' ? 'text-[#E82D86]' : 'text-gray-600 hover:text-[#E82D86]'
+                }`}
             >
               Features
             </button>
             <button
               onClick={() => onNavigate('about')}
-              className={`transition-colors ${
-                currentPage === 'about' ? 'text-[#E82D86]' : 'text-gray-600 hover:text-[#E82D86]'
-              }`}
+              className={`transition-colors ${currentPage === 'about' ? 'text-[#E82D86]' : 'text-gray-600 hover:text-[#E82D86]'
+                }`}
             >
               About Us
             </button>

@@ -61,7 +61,11 @@ export default function AboutPage() {
         className="relative"
       >
         <div className="rounded-3xl overflow-hidden shadow-2xl h-96 bg-gray-100 flex items-center justify-center">
-          <span className="text-gray-400">Image placeholder — replace with your asset later</span>
+           <img
+                src="/1000527542.jpg"
+                alt="KleinZibuo"
+                className="absolute inset-0 w-full h-full object-contain"
+              />
         </div>
       </motion.div>
 
