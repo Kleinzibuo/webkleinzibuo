@@ -25,6 +25,7 @@ import { Calendar } from '@/components/ui/calendar';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { format } from 'date-fns';
 
+
 export default function DemoRequestPage() {
   const router = useRouter();
 
@@ -48,12 +49,93 @@ export default function DemoRequestPage() {
   const isStep2Valid = Boolean(formData.schoolName && formData.schoolType && formData.numberOfStudents);
   const isStep3Valid = Boolean(formData.biggestChallenge && formData.preferredDate);
 
-  const handleSubmit = () => {
-    // TODO: hook this up to your API
-    console.log('Form submitted:', formData);
-    // navigate to success/onboarding page
-    router.push('/onboarding-success');
-  };
+const GRAPHQL_URL = 'https://1xachh4l5m.execute-api.eu-west-2.amazonaws.com/prod/graphql';
+
+
+const API_KEY = '';
+const BEARER_TOKEN = ''; 
+
+const handleSubmit = async () => {
+  try {
+    if (!isStep3Valid) {
+      alert('Please complete all required fields.');
+      return;
+    }
+
+    // Build payload as before
+    const requestDemoInput = {
+      challenge: formData.biggestChallenge || 'Other',
+      preferred_date: formData.preferredDate ? format(formData.preferredDate, 'yyyy-MM-dd') : undefined,
+      school: {
+        name: formData.schoolName || '',
+        no_of_pupils: formData.numberOfStudents || '',
+        description: formData.schoolType || '',
+      },
+      contact_person: {
+        full_name: formData.fullName || '',
+        work_email: formData.email || '',
+        phone: formData.phone || '',
+      },
+      address: {
+        line1: '',
+        line2: '',
+        suburb: '',
+        city: '',
+        province: '',
+        postal_code: '',
+      },
+    };
+
+    const MUTATION = `
+      mutation RequestDemo($requestDemoInput: RequestDemoInput!) {
+        requestDemo(input: $requestDemoInput) {
+          success
+          message
+          id
+        }
+      }
+    `;
+
+    // Prepare headers; include auth if provided
+    const headers: Record<string, string> = {
+      'Content-Type': 'application/json',
+    };
+    if (BEARER_TOKEN) headers['Authorization'] = `Bearer ${BEARER_TOKEN}`;
+    if (API_KEY) headers['x-api-key'] = API_KEY;
+
+    const res = await fetch(GRAPHQL_URL, {
+      method: 'POST',
+      headers,
+      body: JSON.stringify({
+        query: MUTATION,
+        variables: { requestDemoInput },
+      }),
+    });
+
+    const json = await res.json();
+
+    // Show full GraphQL response when error to help debugging
+    if (!res.ok || json.errors) {
+      console.error('GraphQL response:', { status: res.status, body: json });
+      const serverMessage = json.errors?.[0]?.message || json.message || `HTTP ${res.status}`;
+      alert('Submission failed: ' + serverMessage);
+      return;
+    }
+
+    const result = json.data?.requestDemo;
+    if (result?.success) {
+      router.push('/onboarding-success');
+    } else {
+      // If server doesn't return success flag, show raw response
+      console.warn('Unexpected response:', json);
+      alert(result?.message || 'Submission received (no success flag).');
+    }
+  } catch (err) {
+    console.error('Network or parsing error', err);
+    alert('Network error submitting the form. Check console for details.');
+  }
+};
+
 
   return (
     <div className="pt-20 min-h-screen bg-gradient-to-b from-white to-[#F8F9FA]">
@@ -98,9 +180,8 @@ export default function DemoRequestPage() {
                   {/* Step 1 */}
                   <div className="relative z-10 flex flex-col items-center">
                     <div
-                      className={`w-10 h-10 rounded-full flex items-center justify-center transition-all duration-300 ${
-                        currentStep >= 1 ? 'bg-[#E82D86] text-white shadow-lg' : 'bg-gray-200 text-gray-400'
-                      }`}
+                      className={`w-10 h-10 rounded-full flex items-center justify-center transition-all duration-300 ${currentStep >= 1 ? 'bg-[#E82D86] text-white shadow-lg' : 'bg-gray-200 text-gray-400'
+                        }`}
                     >
                       {currentStep > 1 ? <CheckCircle size={20} /> : '1'}
                     </div>
@@ -110,9 +191,8 @@ export default function DemoRequestPage() {
                   {/* Step 2 */}
                   <div className="relative z-10 flex flex-col items-center">
                     <div
-                      className={`w-10 h-10 rounded-full flex items-center justify-center transition-all duration-300 ${
-                        currentStep >= 2 ? 'bg-[#E82D86] text-white shadow-lg' : 'bg-gray-200 text-gray-400'
-                      }`}
+                      className={`w-10 h-10 rounded-full flex items-center justify-center transition-all duration-300 ${currentStep >= 2 ? 'bg-[#E82D86] text-white shadow-lg' : 'bg-gray-200 text-gray-400'
+                        }`}
                     >
                       {currentStep > 2 ? <CheckCircle size={20} /> : '2'}
                     </div>
@@ -122,9 +202,8 @@ export default function DemoRequestPage() {
                   {/* Step 3 */}
                   <div className="relative z-10 flex flex-col items-center">
                     <div
-                      className={`w-10 h-10 rounded-full flex items-center justify-center transition-all duration-300 ${
-                        currentStep >= 3 ? 'bg-[#E82D86] text-white shadow-lg' : 'bg-gray-200 text-gray-400'
-                      }`}
+                      className={`w-10 h-10 rounded-full flex items-center justify-center transition-all duration-300 ${currentStep >= 3 ? 'bg-[#E82D86] text-white shadow-lg' : 'bg-gray-200 text-gray-400'
+                        }`}
                     >
                       3
                     </div>
@@ -250,7 +329,7 @@ export default function DemoRequestPage() {
                         </SelectContent>
                       </Select>
 
-                      
+
                     </div>
                   </div>
                 </motion.div>
