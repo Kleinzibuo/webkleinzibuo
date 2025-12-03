@@ -29,7 +29,6 @@ import { format } from 'date-fns';
 export default function DemoRequestPage() {
   const router = useRouter();
 
-  // initial state: selects now have sensible default values
   const [currentStep, setCurrentStep] = useState<number>(1);
   const [formData, setFormData] = useState({
     // Contact
@@ -90,6 +89,16 @@ export default function DemoRequestPage() {
   const API_KEY = ''; // set if required (x-api-key)
   const BEARER_TOKEN = ''; // set if required (Authorization: Bearer ...)
 
+  const MUTATION = `
+  mutation WebOperation($requestDemoInput: LeadInput!) {
+    WebOperation(requestDemoInput: $requestDemoInput) {
+      success
+      message
+      id
+    }
+  }
+`;
+
   // Static lists used in selects (adjust as needed)
   const provinceOptions = [
     'Gauteng',
@@ -103,82 +112,81 @@ export default function DemoRequestPage() {
     'Northern Cape',
   ];
   const suburbOptions = ['Sandton', 'Rosebank', 'Fourways', 'Randburg', 'Centurion'];
-
-  const handleSubmit = async () => {
-    try {
-      if (!isStep3Valid) {
-        alert('Please complete all required fields.');
-        return;
-      }
-
-      // Build payload that matches backend schema
-      const requestDemoInput = {
-        challenge: formData.biggestChallenge || 'Other',
-        preferred_date: formData.preferredDate ? format(formData.preferredDate, 'yyyy-MM-dd') : undefined,
-        school: {
-          name: formData.schoolName || '',
-          no_of_pupils: formData.numberOfStudents || '',
-          description: formData.schoolType || '',
-        },
-        contact_person: {
-          full_name: formData.fullName || '',
-          role: formData.role || '',
-          work_email: formData.email || '',
-          phone: formData.phone || '',
-        },
-        address: {
-          line1: formData.address.line1 || '',
-          line2: formData.address.line2 || '',
-          suburb: formData.address.suburb || '',
-          city: formData.address.city || '',
-          province: formData.address.province || '',
-          postal_code: formData.address.postal_code || '',
-          country: formData.address.country || '',
-        },
-      };
-
-      const MUTATION = `
-        mutation RequestDemo($requestDemoInput: RequestDemoInput!) {
-          requestDemo(input: $requestDemoInput) {
-            success
-            message
-            id
-          }
-        }
-      `;
-
-      const headers: Record<string, string> = { 'Content-Type': 'application/json' };
-      if (BEARER_TOKEN) headers['Authorization'] = `Bearer ${BEARER_TOKEN}`;
-      if (API_KEY) headers['x-api-key'] = API_KEY;
-
-      const res = await fetch(GRAPHQL_URL, {
-        method: 'POST',
-        headers,
-        body: JSON.stringify({ query: MUTATION, variables: { requestDemoInput } }),
-      });
-
-      const json = await res.json();
-
-      if (!res.ok || json.errors) {
-        console.error('GraphQL response error:', { status: res.status, body: json });
-        alert('Submission failed: ' + (json.errors?.[0]?.message || `HTTP ${res.status}`));
-        return;
-      }
-
-      const result = json.data?.requestDemo;
-      if (result?.success) {
-        router.push('/onboarding-success');
-        return;
-      }
-
-      // fallback
-      console.warn('Unexpected response:', json);
-      alert(result?.message || 'Submission received (no success flag).');
-    } catch (err) {
-      console.error('Network/parsing error', err);
-      alert('Network error submitting the form. Check console for details.');
+  
+const handleSubmit = async () => {
+  try {
+    if (!isStep3Valid) {
+      alert('Please complete all required fields.');
+      return;
     }
-  };
+
+    const requestDemoInput = {
+      challenge: formData.biggestChallenge || 'Other',
+      preferred_date: formData.preferredDate ? format(formData.preferredDate, 'yyyy-MM-dd') : undefined,
+      school: {
+        name: formData.schoolName || '',
+        no_of_pupils: formData.numberOfStudents || '',
+        description: formData.schoolType || '',
+      },
+      contact_person: {
+        full_name: formData.fullName || '',
+        role: formData.role || '',
+        work_email: formData.email || '',
+        phone: formData.phone || '',
+      },
+      address: {
+        line1: formData.address.line1 || '',
+        line2: formData.address.line2 || '',
+        suburb: formData.address.suburb || '',
+        city: formData.address.city || '',
+        province: formData.address.province || '',
+        postal_code: formData.address.postal_code || '',
+        country: formData.address.country || '',
+      },
+    };
+
+    const headers: Record<string, string> = {
+      'Content-Type': 'application/json',
+    };
+
+    // Attach auth if provided
+    if (BEARER_TOKEN) headers['Authorization'] = `Bearer ${BEARER_TOKEN}`;
+    if (API_KEY) headers['x-api-key'] = API_KEY;
+
+    const res = await fetch(GRAPHQL_URL, {
+      method: 'POST',
+      headers,
+      body: JSON.stringify({
+        query: MUTATION,
+        variables: { requestDemoInput },
+      }),
+    });
+
+    const json = await res.json();
+
+    // Helpful debug logs if something fails
+    if (!res.ok || json.errors) {
+      console.error('GraphQL error response', { status: res.status, body: json });
+      const errMsg = json.errors?.[0]?.message || `HTTP ${res.status}`;
+      alert(`Submission failed: ${errMsg}`);
+      return;
+    }
+
+    const result = json.data?.WebOperation;
+    // The backend may return data in different shape. Try both:
+    const payload = result ?? json.data?.WebOperation ?? json.data?.requestDemo ?? json.data;
+    if (payload?.success) {
+      router.push('/onboarding-success');
+      return;
+    }
+
+    // Fallback: show message or raw response
+    alert(payload?.message || 'Submission succeeded (no success flag returned).');
+  } catch (err) {
+    console.error('Network/parsing error', err);
+    alert('Network error submitting the form. Check console for details.');
+  }
+};
 
   // helper: common trigger class
   const selectTriggerClass =
