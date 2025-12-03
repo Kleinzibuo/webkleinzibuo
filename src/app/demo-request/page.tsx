@@ -11,6 +11,7 @@ import {
   Building,
   Calendar as CalendarIcon,
   Shield,
+  ChevronDown,
 } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -25,117 +26,163 @@ import { Calendar } from '@/components/ui/calendar';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { format } from 'date-fns';
 
-
 export default function DemoRequestPage() {
   const router = useRouter();
 
+  // initial state: selects now have sensible default values
   const [currentStep, setCurrentStep] = useState<number>(1);
   const [formData, setFormData] = useState({
+    // Contact
     fullName: '',
+    role: 'PRINCIPAL', // default selected
     email: '',
     phone: '',
+    // School
     schoolName: '',
-    schoolType: '',
-    numberOfStudents: '',
-    biggestChallenge: '',
+    schoolType: 'Crèche', // default selected
+    numberOfStudents: '1-20', // default selected
+    // Schedule
+    biggestChallenge: 'administration', // default selected
     preferredDate: undefined as Date | undefined,
+    // Address (nested) - defaults
+    address: {
+      line1: '',
+      line2: '',
+      suburb: 'Sandton', // default selected
+      city: '',
+      province: 'Gauteng', // default selected
+      postal_code: '',
+      country: 'South Africa',
+    },
   });
 
+  // Support nested updates, e.g. updateFormData('address.line1', '123 main')
   const updateFormData = (field: string, value: any) => {
+    if (field.includes('.')) {
+      const [parent, child] = field.split('.');
+      setFormData((prev) => ({
+        ...prev,
+        [parent]: {
+          ...(prev as any)[parent],
+          [child]: value,
+        },
+      }));
+      return;
+    }
     setFormData((prev) => ({ ...prev, [field]: value }));
   };
 
-  const isStep1Valid = Boolean(formData.fullName && formData.email && formData.phone);
-  const isStep2Valid = Boolean(formData.schoolName && formData.schoolType && formData.numberOfStudents);
+  // Validation: defaults satisfy selects so validations are unchanged
+  const isStep1Valid = Boolean(formData.fullName && formData.email && formData.phone && formData.role);
+  const isStep2Valid =
+    Boolean(formData.schoolName && formData.schoolType && formData.numberOfStudents) &&
+    Boolean(
+      formData.address.line1 &&
+        formData.address.suburb &&
+        formData.address.city &&
+        formData.address.province &&
+        formData.address.postal_code
+    );
   const isStep3Valid = Boolean(formData.biggestChallenge && formData.preferredDate);
 
-const GRAPHQL_URL = 'https://1xachh4l5m.execute-api.eu-west-2.amazonaws.com/prod/graphql';
+  // GraphQL endpoint + auth placeholders
+  const GRAPHQL_URL = 'https://1xachh4l5m.execute-api.eu-west-2.amazonaws.com/prod/graphql';
+  const API_KEY = ''; // set if required (x-api-key)
+  const BEARER_TOKEN = ''; // set if required (Authorization: Bearer ...)
 
+  // Static lists used in selects (adjust as needed)
+  const provinceOptions = [
+    'Gauteng',
+    'Western Cape',
+    'KwaZulu-Natal',
+    'Eastern Cape',
+    'Free State',
+    'Limpopo',
+    'Mpumalanga',
+    'North West',
+    'Northern Cape',
+  ];
+  const suburbOptions = ['Sandton', 'Rosebank', 'Fourways', 'Randburg', 'Centurion'];
 
-const API_KEY = '';
-const BEARER_TOKEN = ''; 
-
-const handleSubmit = async () => {
-  try {
-    if (!isStep3Valid) {
-      alert('Please complete all required fields.');
-      return;
-    }
-
-    // Build payload as before
-    const requestDemoInput = {
-      challenge: formData.biggestChallenge || 'Other',
-      preferred_date: formData.preferredDate ? format(formData.preferredDate, 'yyyy-MM-dd') : undefined,
-      school: {
-        name: formData.schoolName || '',
-        no_of_pupils: formData.numberOfStudents || '',
-        description: formData.schoolType || '',
-      },
-      contact_person: {
-        full_name: formData.fullName || '',
-        work_email: formData.email || '',
-        phone: formData.phone || '',
-      },
-      address: {
-        line1: '',
-        line2: '',
-        suburb: '',
-        city: '',
-        province: '',
-        postal_code: '',
-      },
-    };
-
-    const MUTATION = `
-      mutation RequestDemo($requestDemoInput: RequestDemoInput!) {
-        requestDemo(input: $requestDemoInput) {
-          success
-          message
-          id
-        }
+  const handleSubmit = async () => {
+    try {
+      if (!isStep3Valid) {
+        alert('Please complete all required fields.');
+        return;
       }
-    `;
 
-    // Prepare headers; include auth if provided
-    const headers: Record<string, string> = {
-      'Content-Type': 'application/json',
-    };
-    if (BEARER_TOKEN) headers['Authorization'] = `Bearer ${BEARER_TOKEN}`;
-    if (API_KEY) headers['x-api-key'] = API_KEY;
+      // Build payload that matches backend schema
+      const requestDemoInput = {
+        challenge: formData.biggestChallenge || 'Other',
+        preferred_date: formData.preferredDate ? format(formData.preferredDate, 'yyyy-MM-dd') : undefined,
+        school: {
+          name: formData.schoolName || '',
+          no_of_pupils: formData.numberOfStudents || '',
+          description: formData.schoolType || '',
+        },
+        contact_person: {
+          full_name: formData.fullName || '',
+          role: formData.role || '',
+          work_email: formData.email || '',
+          phone: formData.phone || '',
+        },
+        address: {
+          line1: formData.address.line1 || '',
+          line2: formData.address.line2 || '',
+          suburb: formData.address.suburb || '',
+          city: formData.address.city || '',
+          province: formData.address.province || '',
+          postal_code: formData.address.postal_code || '',
+          country: formData.address.country || '',
+        },
+      };
 
-    const res = await fetch(GRAPHQL_URL, {
-      method: 'POST',
-      headers,
-      body: JSON.stringify({
-        query: MUTATION,
-        variables: { requestDemoInput },
-      }),
-    });
+      const MUTATION = `
+        mutation RequestDemo($requestDemoInput: RequestDemoInput!) {
+          requestDemo(input: $requestDemoInput) {
+            success
+            message
+            id
+          }
+        }
+      `;
 
-    const json = await res.json();
+      const headers: Record<string, string> = { 'Content-Type': 'application/json' };
+      if (BEARER_TOKEN) headers['Authorization'] = `Bearer ${BEARER_TOKEN}`;
+      if (API_KEY) headers['x-api-key'] = API_KEY;
 
-    // Show full GraphQL response when error to help debugging
-    if (!res.ok || json.errors) {
-      console.error('GraphQL response:', { status: res.status, body: json });
-      const serverMessage = json.errors?.[0]?.message || json.message || `HTTP ${res.status}`;
-      alert('Submission failed: ' + serverMessage);
-      return;
-    }
+      const res = await fetch(GRAPHQL_URL, {
+        method: 'POST',
+        headers,
+        body: JSON.stringify({ query: MUTATION, variables: { requestDemoInput } }),
+      });
 
-    const result = json.data?.requestDemo;
-    if (result?.success) {
-      router.push('/onboarding-success');
-    } else {
-      // If server doesn't return success flag, show raw response
+      const json = await res.json();
+
+      if (!res.ok || json.errors) {
+        console.error('GraphQL response error:', { status: res.status, body: json });
+        alert('Submission failed: ' + (json.errors?.[0]?.message || `HTTP ${res.status}`));
+        return;
+      }
+
+      const result = json.data?.requestDemo;
+      if (result?.success) {
+        router.push('/onboarding-success');
+        return;
+      }
+
+      // fallback
       console.warn('Unexpected response:', json);
       alert(result?.message || 'Submission received (no success flag).');
+    } catch (err) {
+      console.error('Network/parsing error', err);
+      alert('Network error submitting the form. Check console for details.');
     }
-  } catch (err) {
-    console.error('Network or parsing error', err);
-    alert('Network error submitting the form. Check console for details.');
-  }
-};
+  };
 
+  // helper: common trigger class
+  const selectTriggerClass =
+    'mt-2 pr-10 relative border rounded-md px-3 py-2 flex items-center bg-white text-left focus:outline-none focus:ring-1 focus:ring-[#E82D86]';
 
   return (
     <div className="pt-20 min-h-screen bg-gradient-to-b from-white to-[#F8F9FA]">
@@ -169,7 +216,6 @@ const handleSubmit = async () => {
               {/* Progress Steps */}
               <div className="mb-12">
                 <div className="flex items-center justify-between relative">
-                  {/* Progress Line */}
                   <div className="absolute top-5 left-0 right-0 h-0.5 bg-gray-200">
                     <div
                       className="h-full bg-[#E82D86] transition-all duration-500"
@@ -177,33 +223,33 @@ const handleSubmit = async () => {
                     />
                   </div>
 
-                  {/* Step 1 */}
                   <div className="relative z-10 flex flex-col items-center">
                     <div
-                      className={`w-10 h-10 rounded-full flex items-center justify-center transition-all duration-300 ${currentStep >= 1 ? 'bg-[#E82D86] text-white shadow-lg' : 'bg-gray-200 text-gray-400'
-                        }`}
+                      className={`w-10 h-10 rounded-full flex items-center justify-center transition-all duration-300 ${
+                        currentStep >= 1 ? 'bg-[#E82D86] text-white shadow-lg' : 'bg-gray-200 text-gray-400'
+                      }`}
                     >
                       {currentStep > 1 ? <CheckCircle size={20} /> : '1'}
                     </div>
                     <span className="text-xs mt-2 font-medium text-gray-600 hidden sm:block">Your Info</span>
                   </div>
 
-                  {/* Step 2 */}
                   <div className="relative z-10 flex flex-col items-center">
                     <div
-                      className={`w-10 h-10 rounded-full flex items-center justify-center transition-all duration-300 ${currentStep >= 2 ? 'bg-[#E82D86] text-white shadow-lg' : 'bg-gray-200 text-gray-400'
-                        }`}
+                      className={`w-10 h-10 rounded-full flex items-center justify-center transition-all duration-300 ${
+                        currentStep >= 2 ? 'bg-[#E82D86] text-white shadow-lg' : 'bg-gray-200 text-gray-400'
+                      }`}
                     >
                       {currentStep > 2 ? <CheckCircle size={20} /> : '2'}
                     </div>
                     <span className="text-xs mt-2 font-medium text-gray-600 hidden sm:block">Your School</span>
                   </div>
 
-                  {/* Step 3 */}
                   <div className="relative z-10 flex flex-col items-center">
                     <div
-                      className={`w-10 h-10 rounded-full flex items-center justify-center transition-all duration-300 ${currentStep >= 3 ? 'bg-[#E82D86] text-white shadow-lg' : 'bg-gray-200 text-gray-400'
-                        }`}
+                      className={`w-10 h-10 rounded-full flex items-center justify-center transition-all duration-300 ${
+                        currentStep >= 3 ? 'bg-[#E82D86] text-white shadow-lg' : 'bg-gray-200 text-gray-400'
+                      }`}
                     >
                       3
                     </div>
@@ -231,15 +277,34 @@ const handleSubmit = async () => {
                   </div>
 
                   <div className="space-y-4">
-                    <div>
-                      <Label htmlFor="fullName">Full Name *</Label>
-                      <Input
-                        id="fullName"
-                        placeholder="e.g., Sarah Johnson"
-                        value={formData.fullName}
-                        onChange={(e: React.ChangeEvent<HTMLInputElement>) => updateFormData('fullName', e.target.value)}
-                        className="mt-2"
-                      />
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <div>
+                        <Label htmlFor="fullName">Full Name *</Label>
+                        <Input
+                          id="fullName"
+                          placeholder="e.g., Sarah Johnson"
+                          value={formData.fullName}
+                          onChange={(e: React.ChangeEvent<HTMLInputElement>) => updateFormData('fullName', e.target.value)}
+                          className="mt-2"
+                        />
+                      </div>
+
+                      <div>
+                        <Label htmlFor="role">Role *</Label>
+                        <Select value={formData.role} onValueChange={(value: string) => updateFormData('role', value)}>
+                          <SelectTrigger className={selectTriggerClass}>
+                            <SelectValue placeholder="Select role" />
+                            <ChevronDown size={16} className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectItem value="PRINCIPAL">PRINCIPAL</SelectItem>
+                            <SelectItem value="MANAGER">MANAGER</SelectItem>
+                            <SelectItem value="ADMIN">ADMIN</SelectItem>
+                            <SelectItem value="TEACHER">TEACHER</SelectItem>
+                            <SelectItem value="OTHER">OTHER</SelectItem>
+                          </SelectContent>
+                        </Select>
+                      </div>
                     </div>
 
                     <div>
@@ -269,7 +334,7 @@ const handleSubmit = async () => {
                 </motion.div>
               )}
 
-              {/* Step 2: Your School */}
+              {/* Step 2: Your School + Address */}
               {currentStep === 2 && (
                 <motion.div
                   initial={{ opacity: 0, x: 20 }}
@@ -299,37 +364,139 @@ const handleSubmit = async () => {
                       />
                     </div>
 
-                    <div>
-                      <Label htmlFor="schoolType">School Type *</Label>
-                      <Select value={formData.schoolType} onValueChange={(value: string) => updateFormData('schoolType', value)}>
-                        <SelectTrigger className="mt-2">
-                          <SelectValue placeholder="Select school type" />
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectItem value="private">Private Preschool</SelectItem>
-                          <SelectItem value="public">Public Preschool</SelectItem>
-                          <SelectItem value="montessori">Montessori</SelectItem>
-                          <SelectItem value="daycare">Daycare Center</SelectItem>
-                          <SelectItem value="other">Other</SelectItem>
-                        </SelectContent>
-                      </Select>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <div>
+                        <Label htmlFor="numberOfStudents">Number of Pupils *</Label>
+                        <Select
+                          value={formData.numberOfStudents}
+                          onValueChange={(value: string) => updateFormData('numberOfStudents', value)}
+                        >
+                          <SelectTrigger className={selectTriggerClass}>
+                            <SelectValue placeholder="Select number of pupils" />
+                            <ChevronDown size={16} className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectItem value="1-20">1-20 students</SelectItem>
+                            <SelectItem value="21-50">21-50 students</SelectItem>
+                            <SelectItem value="51-100">51-100 students</SelectItem>
+                            <SelectItem value="100+">100+ students</SelectItem>
+                          </SelectContent>
+                        </Select>
+                      </div>
+
+                      <div>
+                        <Label htmlFor="schoolType">School Type *</Label>
+                        <Select value={formData.schoolType} onValueChange={(value: string) => updateFormData('schoolType', value)}>
+                          <SelectTrigger className={selectTriggerClass}>
+                            <SelectValue placeholder="Select school type" />
+                            <ChevronDown size={16} className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectItem value="Crèche">Crèche</SelectItem>
+                            <SelectItem value="Private">Private Preschool</SelectItem>
+                            <SelectItem value="Public">Public Preschool</SelectItem>
+                            <SelectItem value="Montessori">Montessori</SelectItem>
+                            <SelectItem value="Daycare">Daycare Center</SelectItem>
+                            <SelectItem value="Other">Other</SelectItem>
+                          </SelectContent>
+                        </Select>
+                      </div>
                     </div>
 
-                    <div>
-                      <Label htmlFor="numberOfStudents">Number of Students *</Label>
-                      <Select value={formData.numberOfStudents} onValueChange={(value: string) => updateFormData('numberOfStudents', value)}>
-                        <SelectTrigger className="mt-2">
-                          <SelectValue placeholder="Select range" />
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectItem value="1-20">1-20 students</SelectItem>
-                          <SelectItem value="21-50">21-50 students</SelectItem>
-                          <SelectItem value="51-100">51-100 students</SelectItem>
-                          <SelectItem value="100+">100+ students</SelectItem>
-                        </SelectContent>
-                      </Select>
+                    {/* Address group */}
+                    <div className="mt-4">
+                      <h3 className="text-sm font-medium text-gray-700 mb-2">Address</h3>
 
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                          <Label htmlFor="line1">Address Line 1 *</Label>
+                          <Input
+                            id="line1"
+                            placeholder="Street address"
+                            value={formData.address.line1}
+                            onChange={(e) => updateFormData('address.line1', e.target.value)}
+                            className="mt-2"
+                          />
+                        </div>
 
+                        <div>
+                          <Label htmlFor="line2">Address Line 2</Label>
+                          <Input
+                            id="line2"
+                            placeholder="Apartment, suite, etc."
+                            value={formData.address.line2}
+                            onChange={(e) => updateFormData('address.line2', e.target.value)}
+                            className="mt-2"
+                          />
+                        </div>
+
+                        <div>
+                          <Label htmlFor="province">Province *</Label>
+                          <Select
+                            value={formData.address.province}
+                            onValueChange={(value: string) => updateFormData('address.province', value)}
+                          >
+                            <SelectTrigger className={selectTriggerClass}>
+                              <SelectValue placeholder="Select a province" />
+                              <ChevronDown size={16} className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none" />
+                            </SelectTrigger>
+                            <SelectContent>
+                              {provinceOptions.map((p) => (
+                                <SelectItem key={p} value={p}>
+                                  {p}
+                                </SelectItem>
+                              ))}
+                            </SelectContent>
+                          </Select>
+                        </div>
+
+                        <div>
+                          <Label htmlFor="suburb">Suburb *</Label>
+                          <Select
+                            value={formData.address.suburb}
+                            onValueChange={(value: string) => updateFormData('address.suburb', value)}
+                          >
+                            <SelectTrigger className={selectTriggerClass}>
+                              <SelectValue placeholder="Select a suburb" />
+                              <ChevronDown size={16} className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none" />
+                            </SelectTrigger>
+                            <SelectContent>
+                              {suburbOptions.map((s) => (
+                                <SelectItem key={s} value={s}>
+                                  {s}
+                                </SelectItem>
+                              ))}
+                            </SelectContent>
+                          </Select>
+                        </div>
+
+                        <div>
+                          <Label htmlFor="city">City *</Label>
+                          <Input
+                            id="city"
+                            placeholder="e.g., Johannesburg"
+                            value={formData.address.city}
+                            onChange={(e) => updateFormData('address.city', e.target.value)}
+                            className="mt-2"
+                          />
+                        </div>
+
+                        <div>
+                          <Label htmlFor="postal_code">Postal Code *</Label>
+                          <Input
+                            id="postal_code"
+                            placeholder="e.g., 2001"
+                            value={formData.address.postal_code}
+                            onChange={(e) => updateFormData('address.postal_code', e.target.value)}
+                            className="mt-2"
+                          />
+                        </div>
+
+                        <div>
+                          <Label htmlFor="country">Country *</Label>
+                          <Input id="country" value={formData.address.country} readOnly className="mt-2 bg-gray-50" />
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </motion.div>
@@ -355,29 +522,35 @@ const handleSubmit = async () => {
 
                   <div className="space-y-4">
                     <div>
-                      <Label htmlFor="biggestChallenge">What's your biggest challenge? *</Label>
-                      <Select value={formData.biggestChallenge} onValueChange={(value: string) => updateFormData('biggestChallenge', value)}>
-                        <SelectTrigger className="mt-2">
-                          <SelectValue placeholder="Select a challenge" />
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectItem value="administration">Administration & Paperwork</SelectItem>
-                          <SelectItem value="communication">Parent Communication</SelectItem>
-                          <SelectItem value="billing">Billing & Payments</SelectItem>
-                          <SelectItem value="reporting">Compliance & Reporting</SelectItem>
-                          <SelectItem value="staffing">Staff Management</SelectItem>
-                          <SelectItem value="other">Other</SelectItem>
-                        </SelectContent>
-                      </Select>
+                      <Label htmlFor="biggestChallenge">What challenges are you facing? *</Label>
+                      <div className="mt-2">
+                        <Select
+                          value={formData.biggestChallenge}
+                          onValueChange={(v: string) => updateFormData('biggestChallenge', v)}
+                        >
+                          <SelectTrigger className={selectTriggerClass}>
+                            <SelectValue placeholder="Select challenge" />
+                            <ChevronDown size={16} className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectItem value="administration">Administration & Paperwork</SelectItem>
+                            <SelectItem value="communication">Parent Communication</SelectItem>
+                            <SelectItem value="billing">Billing & Payments</SelectItem>
+                            <SelectItem value="reporting">Compliance & Reporting</SelectItem>
+                            <SelectItem value="staffing">Staff Management</SelectItem>
+                            <SelectItem value="other">Other</SelectItem>
+                          </SelectContent>
+                        </Select>
+                      </div>
                     </div>
 
                     <div>
-                      <Label>Preferred Date *</Label>
+                      <Label>Preferred Demo Date *</Label>
                       <Popover>
                         <PopoverTrigger asChild>
                           <button className="w-full mt-2 flex items-center justify-between px-3 py-2 border border-gray-300 rounded-lg hover:border-gray-400 transition-colors text-left">
                             <span className={formData.preferredDate ? 'text-gray-900' : 'text-gray-500'}>
-                              {formData.preferredDate ? format(formData.preferredDate, 'PPP') : 'Pick a date'}
+                              {formData.preferredDate ? format(formData.preferredDate, 'PPP') : 'yyyy / mm / dd'}
                             </span>
                             <CalendarIcon size={16} className="text-gray-400" />
                           </button>
@@ -470,11 +643,7 @@ const handleSubmit = async () => {
 
               {/* Testimonial */}
               <div className="bg-gradient-to-br from-[#E82D86] to-[#F047A0] rounded-3xl shadow-lg p-8 text-white">
-                <div className="flex gap-1 mb-4">
-                  {[...Array(5)].map((_, i) => (
-                    <span key={i}>★</span>
-                  ))}
-                </div>
+                <div className="flex gap-1 mb-4">{[...Array(5)].map((_, i) => <span key={i}>★</span>)}</div>
                 <p className="mb-6 italic">
                   "The demo was a game-changer. We could see exactly how KleinZibuo would transform our operations. We were
                   onboarded in a week and haven't looked back!"
