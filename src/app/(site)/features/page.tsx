@@ -99,7 +99,7 @@ export default function FeaturesPage({ onNavigate }: FeaturesPageProps) {
                 />
               </div>
 
-              <button className="text-[#E82D86] hover:text-[#D01F76] transition-colors inline-flex items-center gap-2 group">
+              <button className="text-[#E82D86] hover:text-[#D01F76] cursor-pointer transition-colors inline-flex items-center gap-2 group">
                 Learn More
                 <span className="group-hover:translate-x-1 transition-transform">→</span>
               </button>
@@ -150,7 +150,7 @@ export default function FeaturesPage({ onNavigate }: FeaturesPageProps) {
                 bgGradient="bg-gradient-to-br from-[#00CFFF] to-[#80E0FF]"
               />
 
-              <button className="text-[#0083AD] hover:text-[#007399] transition-colors inline-flex items-center gap-2 group">
+              <button className="text-[#0083AD] hover:text-[#007399] cursor-pointer transition-colors inline-flex items-center gap-2 group">
                 Learn More
                 <span className="group-hover:translate-x-1 transition-transform">→</span>
               </button>
@@ -194,7 +194,7 @@ export default function FeaturesPage({ onNavigate }: FeaturesPageProps) {
             </p>
             <button
               onClick={() => onNavigate('demo')}
-              className="px-10 py-5 bg-white text-[#E82D86] rounded-full hover:bg-gray-100 transition-all duration-300 shadow-xl hover:shadow-2xl transform hover:-translate-y-1"
+              className="px-10 py-5 bg-white text-[#E82D86] cursor-pointer rounded-full hover:bg-gray-100 transition-all duration-300 shadow-xl hover:shadow-2xl transform hover:-translate-y-1"
             >
               Request a Demo
             </button>

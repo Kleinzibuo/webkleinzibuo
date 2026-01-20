@@ -1,15 +1,15 @@
-
-import { useState, useEffect } from 'react';
-import { Menu, X } from 'lucide-react';
-
-
+import { useState, useEffect } from "react";
+import { Menu, X } from "lucide-react";
 
 interface HeaderProps {
   onNavigate: (page: string) => void;
   currentPage: string;
 }
 
-export default function Header({ onNavigate, currentPage }: HeaderProps) {
+export default function Header({
+  onNavigate,
+  currentPage,
+}: Readonly<HeaderProps>) {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
@@ -17,56 +17,65 @@ export default function Header({ onNavigate, currentPage }: HeaderProps) {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 10);
     };
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   return (
     <header
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${isScrolled ? 'bg-white shadow-md' : 'bg-white/95 backdrop-blur-sm'
-        }`}
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+        isScrolled ? "bg-white shadow-md" : "bg-white/95 backdrop-blur-sm"
+      }`}
     >
       <div className="container mx-auto px-6 py-4">
         <div className="flex items-center justify-between">
           {/* Logo */}
           <button
-            onClick={() => onNavigate('home')}
-            className="w-[15rem] h-[2rem] flex items-center hover:opacity-80 transition-opacity"
+            onClick={() => onNavigate("home")}
+            className="w-[15rem] h-[2rem] flex items-center hover:opacity-80 transition-opacity cursor-pointer"
           >
             <img
               src="/kleinzibu_logo.png"
-              alt="KleinZibuo"
               className="w-full h-auto"
+              alt="KleinZibuo"
             />
           </button>
-
 
           {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center space-x-8">
             <button
-              onClick={() => onNavigate('home')}
-              className={`transition-colors ${currentPage === 'home' ? 'text-[#E82D86]' : 'text-gray-600 hover:text-[#E82D86]'
-                }`}
+              onClick={() => onNavigate("home")}
+              className={`transition-colors cursor-pointer ${
+                currentPage === "home"
+                  ? "text-[#E82D86]"
+                  : "text-gray-600 hover:text-[#E82D86]"
+              }`}
             >
               Home
             </button>
             <button
-              onClick={() => onNavigate('features')}
-              className={`transition-colors ${currentPage === 'features' ? 'text-[#E82D86]' : 'text-gray-600 hover:text-[#E82D86]'
-                }`}
+              onClick={() => onNavigate("features")}
+              className={`transition-colors cursor-pointer ${
+                currentPage === "features"
+                  ? "text-[#E82D86]"
+                  : "text-gray-600 hover:text-[#E82D86]"
+              }`}
             >
               Features
             </button>
             <button
-              onClick={() => onNavigate('about')}
-              className={`transition-colors ${currentPage === 'about' ? 'text-[#E82D86]' : 'text-gray-600 hover:text-[#E82D86]'
-                }`}
+              onClick={() => onNavigate("about")}
+              className={`transition-colors cursor-pointer ${
+                currentPage === "about"
+                  ? "text-[#E82D86]"
+                  : "text-gray-600 hover:text-[#E82D86]"
+              }`}
             >
               About Us
             </button>
             <button
-              onClick={() => onNavigate('demo')}
-              className="px-6 py-2 bg-[#E82D86] text-white rounded-full hover:bg-[#D01F76] transition-all duration-300"
+              onClick={() => onNavigate("demo")}
+              className="px-6 py-2 bg-[#E82D86] text-white rounded-full hover:bg-[#D01F76] cursor-pointer transition-all duration-300"
             >
               Request a Demo
             </button>
@@ -86,7 +95,7 @@ export default function Header({ onNavigate, currentPage }: HeaderProps) {
           <div className="md:hidden mt-4 pb-4 space-y-3">
             <button
               onClick={() => {
-                onNavigate('home');
+                onNavigate("home");
                 setIsMobileMenuOpen(false);
               }}
               className="block w-full text-left py-2 text-gray-600 hover:text-[#E82D86] transition-colors"
@@ -95,7 +104,7 @@ export default function Header({ onNavigate, currentPage }: HeaderProps) {
             </button>
             <button
               onClick={() => {
-                onNavigate('features');
+                onNavigate("features");
                 setIsMobileMenuOpen(false);
               }}
               className="block w-full text-left py-2 text-gray-600 hover:text-[#E82D86] transition-colors"
@@ -104,7 +113,7 @@ export default function Header({ onNavigate, currentPage }: HeaderProps) {
             </button>
             <button
               onClick={() => {
-                onNavigate('about');
+                onNavigate("about");
                 setIsMobileMenuOpen(false);
               }}
               className="block w-full text-left py-2 text-gray-600 hover:text-[#E82D86] transition-colors"
@@ -113,7 +122,7 @@ export default function Header({ onNavigate, currentPage }: HeaderProps) {
             </button>
             <button
               onClick={() => {
-                onNavigate('demo');
+                onNavigate("demo");
                 setIsMobileMenuOpen(false);
               }}
               className="block w-full text-left py-3 px-6 bg-[#E82D86] text-white rounded-full hover:bg-[#D01F76] transition-all"

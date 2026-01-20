@@ -1,9 +1,7 @@
-// app/page.tsx
 "use client";
 
 import HomePage from "@/components/HomePage";
 import { useRouter } from "next/navigation";
-import React from "react";
 
 export default function Page() {
   const router = useRouter();

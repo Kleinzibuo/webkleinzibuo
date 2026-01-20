@@ -40,6 +40,7 @@ export default function FinalCTA({ onNavigate }: HomePageProps) {
                 transition-all duration-300 
                 shadow-lg hover:shadow-xl 
                 transform hover:-translate-y-1
+                cursor-pointer
               "
             >
               Book a Demo
@@ -57,6 +58,7 @@ export default function FinalCTA({ onNavigate }: HomePageProps) {
                 font-semibold
                 hover:bg-[#E82D86]/10
                 transition-all duration-300
+                cursor-pointer
               "
             >
               Contact Us
