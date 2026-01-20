@@ -49,6 +49,7 @@ export default function Hero({ onNavigate }: HomePageProps) {
                   transition-all duration-300
                   shadow-xl hover:shadow-2xl 
                   transform hover:-translate-y-1
+                  cursor-pointer
                 "
               >
                 See Our Solutions
@@ -62,6 +63,7 @@ export default function Hero({ onNavigate }: HomePageProps) {
                   text-white rounded-full font-semibold
                   hover:bg-white hover:text-[#E82D86]
                   transition-all duration-300
+                  cursor-pointer
                 "
               >
                 View Our Client Schools

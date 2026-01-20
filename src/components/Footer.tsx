@@ -1,7 +1,7 @@
 import { Mail, MapPin, Phone } from "lucide-react";
+import Link from "next/link";
 
 export default function Footer() {
-
   return (
     <footer className="bg-gray-900 text-white py-12">
       <div className="container mx-auto px-6">
@@ -9,8 +9,11 @@ export default function Footer() {
           {/* Brand */}
           <div className="space-y-4">
             <div className="flex items-center">
-              {/* <img src={logo} alt="KleinZibuo" className="h-10 w-auto brightness-0 invert" /> */}
-              <span>logo here</span>
+              <img
+                src="/logo-white.webp"
+                className="h-10 w-auto brightness-0 invert"
+                alt="KleinZibuo"
+              />
             </div>
             <p className="text-gray-400">
               Empowering preschools to focus on what matters most: the children.
@@ -22,24 +25,36 @@ export default function Footer() {
             <h3 className="mb-4">Quick Links</h3>
             <ul className="space-y-3">
               <li>
-                <a href="#" className="text-gray-400 hover:text-[#E82D86] transition-colors">
+                <Link
+                  href="/"
+                  className="text-gray-400 hover:text-[#E82D86] transition-colors"
+                >
                   Home
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="#" className="text-gray-400 hover:text-[#E82D86] transition-colors">
+                <Link
+                  href="/features"
+                  className="text-gray-400 hover:text-[#E82D86] transition-colors"
+                >
                   Features
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="#" className="text-gray-400 hover:text-[#E82D86] transition-colors">
+                <Link
+                  href="/about"
+                  className="text-gray-400 hover:text-[#E82D86] transition-colors"
+                >
                   About Us
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="#" className="text-gray-400 hover:text-[#E82D86] transition-colors">
+                <Link
+                  href="/demo-request"
+                  className="text-gray-400 hover:text-[#E82D86] transition-colors cursor-pointer"
+                >
                   Request Demo
-                </a>
+                </Link>
               </li>
             </ul>
           </div>
@@ -65,7 +80,7 @@ export default function Footer() {
         </div>
 
         <div className="mt-12 pt-8 border-t border-gray-800 text-center text-gray-400">
-          <p>&copy; 2025 KleinZibuo. All rights reserved.</p>
+          <p>Copyright &copy; {new Date().getFullYear()} KleinZibuo. All rights reserved.</p>
         </div>
       </div>
     </footer>
