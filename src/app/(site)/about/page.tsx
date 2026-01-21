@@ -73,7 +73,7 @@ export default function AboutPage() {
                 <img
                   src="/1000527542.jpg"
                   alt="KleinZibuo"
-                  className="absolute inset-0 w-full h-full object-contain"
+                  className="absolute inset-0 w-full h-full object-cover rounded-3xl"
                 />
               </div>
             </motion.div>
@@ -276,13 +276,13 @@ export default function AboutPage() {
                 Book a Demo
               </Link>
 
-              <a
+              <Link
                 href="mailto:info@kleinzibuo.co.za"
                 className="px-10 py-5 bg-transparent text-white border-2 border-white 
                 rounded-full hover:bg-white hover:text-[#E82D86] transition-all duration-300"
               >
                 Contact Us
-              </a>
+              </Link>
             </div>
           </motion.div>
         </div>
