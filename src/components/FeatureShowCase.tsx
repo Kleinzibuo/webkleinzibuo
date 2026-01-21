@@ -44,7 +44,7 @@ export default function FeatureShowcase({ onNavigate }: HomePageProps) {
               <img
                 src="/1000527497.png"
                 alt="KleinZibuo"
-                className="absolute inset-0 w-full h-full object-contain"
+                className="absolute inset-0 w-full h-full object-cover"
               />
             </div>
           </motion.div>
@@ -73,7 +73,7 @@ export default function FeatureShowcase({ onNavigate }: HomePageProps) {
               <img
                 src="/1000527503.jpg"
                 alt="KleinZibuo"
-                className="absolute inset-0 w-full h-full object-contain"
+                className="absolute inset-0 w-full h-full object-cover"
               />
             </div>
           </motion.div>
@@ -102,7 +102,7 @@ export default function FeatureShowcase({ onNavigate }: HomePageProps) {
               <img
                 src="/1000527526.jpg"
                 alt="KleinZibuo"
-                className="absolute inset-0 w-full h-full object-contain"
+                className="absolute inset-0 w-full h-full object-cover"
               />
             </div>
           </motion.div>
