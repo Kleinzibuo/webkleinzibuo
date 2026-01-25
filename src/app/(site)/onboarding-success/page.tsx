@@ -1,9 +1,9 @@
 'use client';
 
-import React from 'react';
+import Link from 'next/link';
 import { motion } from 'framer-motion';
 import {
-  BarChart3, Users, FileText, Clock, Camera, Calendar, Bell, MessageCircle, Shield,
+  Users,
   CheckCircle,
   Lightbulb,
   Play
@@ -121,7 +121,7 @@ export default function OnboardingSuccessPage({ onNavigate }: OnboardingSuccessP
                   <p className="text-gray-600 mb-4">
                     Watch our 2-minute overview video to get a sneak peek of what KleinZibuo can do for your preschool.
                   </p>
-                  <button className="px-6 py-3 bg-[#7DCE82] text-white rounded-full hover:bg-[#6DBE72] transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 flex items-center gap-2">
+                  <button className="px-6 py-3 bg-[#7DCE82] text-white rounded-full hover:bg-[#6DBE72] transition-all cursor-pointer duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 flex items-center gap-2">
                     <Play size={20} />
                     Watch Overview Video
                   </button>
@@ -143,13 +143,13 @@ export default function OnboardingSuccessPage({ onNavigate }: OnboardingSuccessP
               <p className="text-gray-600 text-sm mb-4">
                 Learn about all the powerful tools KleinZibuo offers to transform your preschool operations.
               </p>
-              <button
-                onClick={() => onNavigate('features')}
-                className="text-[#FF6B35] hover:text-[#FF5520] transition-colors inline-flex items-center gap-2 group"
+              <Link
+                href="/features"
+                className="text-[#FF6B35] hover:text-[#FF5520] cursor-pointer transition-colors inline-flex items-center gap-2 group"
               >
                 View Features
                 <span className="group-hover:translate-x-1 transition-transform">→</span>
-              </button>
+              </Link>
             </div>
 
             {/* Resource Card 2 */}
@@ -158,13 +158,15 @@ export default function OnboardingSuccessPage({ onNavigate }: OnboardingSuccessP
               <p className="text-gray-600 text-sm mb-4">
                 See how other preschools have transformed their operations with KleinZibuo.
               </p>
-              <button
-                onClick={() => window.open('https://kleinzibuo.com/testimonials', '_blank')}
-                className="text-[#4A90E2] hover:text-[#3A7BC2] transition-colors inline-flex items-center gap-2 group"
+              <Link
+                target="_blank"
+                rel="noopener noreferrer"
+                href="https://kleinzibuo.com/testimonials"
+                className="text-[#4A90E2] hover:text-[#3A7BC2] cursor-pointer transition-colors inline-flex items-center gap-2 group"
               >
                 Read Testimonials
                 <span className="group-hover:translate-x-1 transition-transform">→</span>
-              </button>
+              </Link>
             </div>
           </motion.div>
 
@@ -186,12 +188,12 @@ export default function OnboardingSuccessPage({ onNavigate }: OnboardingSuccessP
             </div>
 
             <div className="pt-8">
-              <button
-                onClick={() => onNavigate('home')}
-                className="px-8 py-3 bg-gray-100 text-gray-700 rounded-full hover:bg-gray-200 transition-all"
+              <Link
+                href="/"
+                className="px-8 py-3 bg-gray-100 text-gray-700 cursor-pointer rounded-full hover:bg-gray-200 transition-all"
               >
                 Return to Homepage
-              </button>
+              </Link>
             </div>
           </motion.div>
 
