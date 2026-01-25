@@ -80,12 +80,12 @@ export default function Step1YourInfo() {
                   </SelectTrigger>
                   <SelectContent>
                     <SelectItem value={EUserRole.PRINCIPAL}>
-                      PRINCIPAL
+                      Principal
                     </SelectItem>
-                    <SelectItem value={EUserRole.MANAGER}>MANAGER</SelectItem>
-                    <SelectItem value={EUserRole.ADMIN}>ADMIN</SelectItem>
-                    <SelectItem value={EUserRole.TEACHER}>TEACHER</SelectItem>
-                    <SelectItem value={EUserRole.OTHER}>OTHER</SelectItem>
+                    <SelectItem value={EUserRole.MANAGER}>Manager</SelectItem>
+                    <SelectItem value={EUserRole.ADMIN}>Admin</SelectItem>
+                    <SelectItem value={EUserRole.TEACHER}>Teacher</SelectItem>
+                    <SelectItem value={EUserRole.OTHER}>Other</SelectItem>
                   </SelectContent>
                 </Select>
               )}
