@@ -90,6 +90,7 @@ function DemoRequestFormInner() {
 
   const onSubmit = methods.handleSubmit(async (values) => {
     try {
+      const sanitizedPhone = values.phone.replaceAll(/\s+/g, "");
       const requestDemoInput = {
         challenges: values.biggestChallenge,
         preferred_date: values.preferredDate
@@ -102,9 +103,9 @@ function DemoRequestFormInner() {
         },
         contact_person: {
           full_name: values.fullName,
-          role: values.role,
+          role: values.role.toUpperCase(),
           work_email: values.email,
-          phone: values.phone,
+          phone: sanitizedPhone,
         },
         address: {
           line1: values.address.line1,

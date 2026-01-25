@@ -1,7 +1,7 @@
 export enum EUserRole {
-  PRINCIPAL = "PRINCIPAL",
-  MANAGER = "MANAGER",
-  ADMIN = "ADMIN",
-  TEACHER = "TEACHER",
-  OTHER = "OTHER",
+  PRINCIPAL = "Principal",
+  MANAGER = "Manager",
+  ADMIN = "Admin",
+  TEACHER = "Teacher",
+  OTHER = "Other",
 }

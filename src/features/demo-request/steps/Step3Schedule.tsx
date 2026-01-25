@@ -15,6 +15,7 @@ import {
 } from "@/components/ui/popover";
 import ChallengesMultiSelect from "@/components/inputs/ChallengesMultiSelect";
 import CustomCheckbox from "@/components/inputs/CustomCheckbox";
+import Link from "next/link";
 
 const challengeOptions = [
   { value: "Administration & Paperwork", label: "Administration & Paperwork" },
@@ -149,7 +150,7 @@ export default function Step3Schedule() {
                 label={
                   <>
                     By submitting this form, I agree to the{" "}
-                    <a
+                    <Link
                       href="/terms"
                       target="_blank"
                       rel="noreferrer"
@@ -157,8 +158,17 @@ export default function Step3Schedule() {
                       onClick={(e) => e.stopPropagation()}
                     >
                       Terms & Conditions
-                    </a>{" "}
-                    and consent to being contacted about my demo request.
+                    </Link>,{" "}
+                    <Link
+                      href="/privacy"
+                      target="_blank"
+                      rel="noreferrer"
+                      className="text-[#E82D86] underline underline-offset-2 hover:text-[#D01F75]"
+                      onClick={(e) => e.stopPropagation()}
+                    >
+                      Privacy Policy
+                    </Link>
+                    , and consent to being contacted about my demo request.
                   </>
                 }
               />
