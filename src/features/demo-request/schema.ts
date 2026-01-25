@@ -4,7 +4,13 @@ export const demoRequestSchema = z.object({
   fullName: z.string().min(2, "Full name is required"),
   role: z.enum(["PRINCIPAL", "MANAGER", "ADMIN", "TEACHER", "OTHER"]),
   email: z.email({ message: "Enter a valid email" }),
-  phone: z.string().min(7, "Enter a valid phone number"),
+  phone: z.string().refine((value) => {
+    const normalized = value.replaceAll(/[^\d+]/g, "");
+    if (normalized.startsWith("+27")) {
+      return /^\+27\d{9}$/.test(normalized);
+    }
+    return /^0\d{9}$/.test(normalized);
+  }, "Enter a valid South African phone number"),
 
   schoolName: z.string().min(2, "School name is required"),
   schoolType: z.string().min(1, "School type is required"),

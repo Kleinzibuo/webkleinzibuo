@@ -59,6 +59,45 @@ export default function Footer() {
             </ul>
           </div>
 
+          {/* Quick Links */}
+          <div>
+            <h3 className="mb-4">Legal Links</h3>
+            <ul className="space-y-3">
+              <li>
+                <Link
+                  href="/terms"
+                  className="text-gray-400 hover:text-[#E82D86] transition-colors"
+                >
+                  Terms of Use
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/privacy"
+                  className="text-gray-400 hover:text-[#E82D86] transition-colors"
+                >
+                  Privacy Policy
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/disclaimer"
+                  className="text-gray-400 hover:text-[#E82D86] transition-colors"
+                >
+                  Disclaimer
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/important-notices"
+                  className="text-gray-400 hover:text-[#E82D86] transition-colors"
+                >
+                  Important Notices
+                </Link>
+              </li>
+            </ul>
+          </div>
+
           {/* Contact */}
           <div>
             <h3 className="mb-4">Get in Touch</h3>
@@ -80,7 +119,10 @@ export default function Footer() {
         </div>
 
         <div className="mt-12 pt-8 border-t border-gray-800 text-center text-gray-400">
-          <p>Copyright &copy; {new Date().getFullYear()} KleinZibuo. All rights reserved.</p>
+          <p>
+            Copyright &copy; {new Date().getFullYear()} KleinZibuo. All rights
+            reserved.
+          </p>
         </div>
       </div>
     </footer>

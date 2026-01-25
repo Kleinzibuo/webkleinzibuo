@@ -117,7 +117,7 @@ export default function Step1YourInfo() {
           <Input
             id="phone"
             type="tel"
-            placeholder="e.g., 083 123 4567"
+            placeholder="e.g. 0831234567"
             className="mt-2"
             {...register("phone")}
           />
