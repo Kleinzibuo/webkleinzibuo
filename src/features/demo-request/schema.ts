@@ -2,7 +2,7 @@ import { z } from "zod";
 
 export const demoRequestSchema = z.object({
   fullName: z.string().min(2, "Full name is required"),
-  role: z.enum(["PRINCIPAL", "MANAGER", "ADMIN", "TEACHER", "OTHER"]),
+  role: z.enum(["Principal", "Manager", "Admin", "Teacher", "Other"]),
   email: z.email({ message: "Enter a valid email" }),
   phone: z.string().refine((value) => {
     const normalized = value.replaceAll(/[^\d+]/g, "");
