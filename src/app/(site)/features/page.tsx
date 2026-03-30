@@ -10,6 +10,7 @@ import {
   Camera,
   Calendar,
 } from "lucide-react";
+import { navigate } from "next/dist/client/components/segment-cache/navigation";
 
 interface FeaturesPageProps {
   onNavigate: (page: string) => void;
@@ -105,7 +106,7 @@ export default function FeaturesPage() {
                 />
               </div>
 
-              <button className="text-[#E82D86] hover:text-[#D01F76] cursor-pointer transition-colors inline-flex items-center gap-2 group">
+              <button className="text-[#E82D86] hover:text-[#D01F76] cursor-pointer transition-colors inline-flex items-center gap-2 group" onClick={() => window.location.href = '/about'}>
                 Learn More
                 <span className="group-hover:translate-x-1 transition-transform">
                   →
