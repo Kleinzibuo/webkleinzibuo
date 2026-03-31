@@ -22,6 +22,7 @@ export default function ClientLayout({
     if (page === "about") return router.push("/about");
     if (page === "contact") return router.push("/contact")
     if (page === "find-preschool") return router.push("/find-preschool")  
+    if (page === "preschool-detail") return router.push("/preschool-detail")  
     return router.push("/");
   }
 
@@ -33,6 +34,7 @@ export default function ClientLayout({
     if (pathname.startsWith("/about")) return "about";
     if (pathname.startsWith("/contact")) return "contact";
     if (pathname.startsWith("/find-preschool")) return "/find-preschool";
+    if (pathname.startsWith("/preschool-detail")) return "/preschool-detail";
     return "";
   })();
 
