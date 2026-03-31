@@ -124,7 +124,7 @@ const preschoolsData: Record<number, Preschool> = {
   2: {
     id: 2,
     name: "EduKids Learning Centre",
-    image: eduKidsImage,
+    image: "/images/093371cb837dd92a8c3de9738e44cc771e04d382.png",
     location: "45 Education Drive, Westville",
     area: "Westville",
     phone: "031 456 7890",
@@ -140,7 +140,7 @@ const preschoolsData: Record<number, Preschool> = {
     hours: "Monday - Friday, 6:30 AM - 5:30 PM",
     distance: "5.7 km",
     gallery: [
-      eduKidsImage,
+      "/images/093371cb837dd92a8c3de9738e44cc771e04d382.png",
       "https://images.unsplash.com/photo-1633219664515-2441564d0cc4?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxwcmVzY2hvb2wlMjBjaGlsZHJlbiUyMGxlYXJuaW5nfGVufDF8fHx8MTc3NDkwNDU4N3ww&ixlib=rb-4.1.0&q=80&w=1080",
       "https://images.unsplash.com/photo-1633762348290-33a37f4d7fcf?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxwcmVzY2hvb2wlMjBvdXRkb29yJTIwcGxheWdyb3VuZHxlbnwxfHx8fDE3NzQ5MDMwNjB8MA&ixlib=rb-4.1.0&q=80&w=1080",
       "https://images.unsplash.com/photo-1591391258564-be184031cb21?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxtb250ZXNzb3JpJTIwY2xhc3Nyb29tfGVufDF8fHx8MTc3NDk0NTE5OXww&ixlib=rb-4.1.0&q=80&w=1080",
@@ -190,7 +190,7 @@ const preschoolsData: Record<number, Preschool> = {
   }
 };
 
-export function PreschoolDetailPage({ onNavigate, preschoolId }: PreschoolDetailPageProps) {
+export default function PreschoolDetailPage({ onNavigate, preschoolId }: PreschoolDetailPageProps) {
   const preschool = preschoolsData[preschoolId];
 
   if (!preschool) {
