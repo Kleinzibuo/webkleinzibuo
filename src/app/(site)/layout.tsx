@@ -32,7 +32,7 @@ export default function ClientLayout({
     if (pathname.startsWith("/demo-request")) return "demo";
     if (pathname.startsWith("/about")) return "about";
     if (pathname.startsWith("/contact")) return "contact";
-    if (pathname.startsWith("/find-preschool")) return "/find-preschool")
+    if (pathname.startsWith("/find-preschool")) return "/find-preschool";
     return "";
   })();
 
