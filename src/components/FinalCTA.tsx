@@ -48,7 +48,7 @@ export default function FinalCTA({ onNavigate }: HomePageProps) {
 
             {/* SECONDARY CTA */}
             <button
-              onClick={() => (window.location.href = 'mailto:info@kleinzibuo.co.za')}
+              onClick={() => onNavigate('contact')}
               className="
                 px-10 py-4 
                 bg-transparent 

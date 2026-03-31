@@ -21,6 +21,8 @@ export default function Header({
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+    
+
   return (
     <header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
@@ -72,6 +74,17 @@ export default function Header({
               }`}
             >
               About Us
+            </button>
+            <button
+              onClick={() => onNavigate('contact')}
+              className={`transition-colors cursor-pointer ${
+                currentPage === "contact" 
+                ? 'text-[#E82D86]' 
+                : 'text-gray-600 hover:text-[#E82D86]'
+              }`}
+              
+            >
+              Contact
             </button>
             <button
               onClick={() => onNavigate("demo")}

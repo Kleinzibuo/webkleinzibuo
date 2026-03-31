@@ -277,7 +277,7 @@ export default function AboutPage() {
               </Link>
 
               <Link
-                href="mailto:info@kleinzibuo.co.za"
+                href="/contact"
                 className="px-10 py-5 bg-transparent text-white border-2 border-white 
                 rounded-full hover:bg-white hover:text-[#E82D86] transition-all duration-300"
               >

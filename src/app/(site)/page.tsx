@@ -11,6 +11,7 @@ export default function Page() {
     if (page === "clients") return router.push("/clients");
     if (page === "demo") return router.push("/demo-request");
     if (page === "about") return router.push("/about");
+    if (page === "contact") return router.push("/contact");
     return router.push("/");
   }
 
