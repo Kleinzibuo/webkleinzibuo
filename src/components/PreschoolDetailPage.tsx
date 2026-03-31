@@ -1,10 +1,11 @@
+//src/app/preschool-detail/[id]/page.tsx
 'use client';
 
 import { motion } from 'framer-motion';
 import { MapPin, Phone, Mail, Globe, Clock, Users, Star, Award, Check, Heart, Calendar, DollarSign, Shield, Utensils, Music, Palette, BookOpen, ArrowLeft, ExternalLink, MessageCircle } from 'lucide-react';
+import { useRouter } from 'next/navigation';
 
 interface PreschoolDetailPageProps {
-  onNavigate: (page: string, preschoolId?: number) => void;
   preschoolId: number;
 }
 
@@ -190,7 +191,8 @@ const preschoolsData: Record<number, Preschool> = {
   }
 };
 
-export default function PreschoolDetailPage({ onNavigate, preschoolId }: PreschoolDetailPageProps) {
+export default function PreschoolDetailPage({ preschoolId }: PreschoolDetailPageProps) {
+  const router = useRouter();
   const preschool = preschoolsData[preschoolId];
 
   if (!preschool) {
@@ -199,7 +201,7 @@ export default function PreschoolDetailPage({ onNavigate, preschoolId }: Prescho
         <div className="text-center">
           <h2 className="text-2xl font-bold text-gray-900 mb-4">Preschool not found</h2>
           <button
-            onClick={() => onNavigate('find-preschool')}
+            onClick={() => router.push('/find-preschool')}
             className="px-6 py-3 bg-[#E82D86] text-white rounded-full hover:bg-[#D01F76] transition-all"
           >
             Back to Find Preschool
@@ -237,7 +239,7 @@ export default function PreschoolDetailPage({ onNavigate, preschoolId }: Prescho
             >
               <div className="rounded-3xl overflow-hidden shadow-2xl">
                 {typeof preschool.image === 'string' && preschool.image.startsWith('http') ? (
-                  <ImageWithFallback
+                  <img
                     src={preschool.image}
                     alt={preschool.name}
                     className="w-full h-[400px] object-cover"
@@ -383,7 +385,7 @@ export default function PreschoolDetailPage({ onNavigate, preschoolId }: Prescho
                   className="rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-shadow duration-300"
                 >
                   {typeof image === 'string' && image.startsWith('http') ? (
-                    <ImageWithFallback
+                    <img
                       src={image}
                       alt={`${preschool.name} facility ${index + 1}`}
                       className="w-full h-64 object-cover"

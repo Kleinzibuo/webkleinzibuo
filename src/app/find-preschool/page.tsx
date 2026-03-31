@@ -3,6 +3,7 @@
 import { motion } from 'framer-motion';
 import { Search, MapPin, Phone, Mail, Globe, Users, Clock, Award, Star, Filter, Map, Grid3x3, ExternalLink, Check } from 'lucide-react';
 import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 
 
 interface FindPreschoolPageProps {
@@ -138,6 +139,7 @@ const preschools: Preschool[] = [
 ];
 
 export default function FindPreschoolPage({ onNavigate }: FindPreschoolPageProps) {
+  const router = useRouter();
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedArea, setSelectedArea] = useState('all');
   const [selectedAge, setSelectedAge] = useState('all');
@@ -314,7 +316,7 @@ export default function FindPreschoolPage({ onNavigate }: FindPreschoolPageProps
                   transition={{ duration: 0.5, delay: index * 0.1 }}
                   viewport={{ once: true }}
                   className="bg-white rounded-3xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden group cursor-pointer"
-                  onClick={() => onNavigate('preschool-detail', preschool.id)}
+                  onClick={() => router.push(`/preschool-detail/${preschool.id}`)}
                 >
                   {/* Image */}
                   <div className="relative h-48 overflow-hidden">
