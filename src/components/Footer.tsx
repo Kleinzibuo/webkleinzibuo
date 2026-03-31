@@ -42,6 +42,14 @@ export default function Footer() {
               </li>
               <li>
                 <Link
+                  href="/find-preschool"
+                  className="text-gray-400 hover:text-[#E82D86] transition-colors"
+                >
+                  Find PreSchool
+                </Link>
+              </li>
+              <li>
+                <Link
                   href="/about"
                   className="text-gray-400 hover:text-[#E82D86] transition-colors"
                 >

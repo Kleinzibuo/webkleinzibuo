@@ -217,7 +217,7 @@ export default function PreschoolDetailPage({ preschoolId }: PreschoolDetailPage
       <div className="bg-white border-b border-gray-200">
         <div className="container mx-auto px-6 py-4">
           <button
-            onClick={() => onNavigate('find-preschool')}
+            onClick={() => router.push('find-preschool')}
             className="flex items-center gap-2 text-gray-600 hover:text-[#E82D86] transition-colors"
           >
             <ArrowLeft size={20} />
@@ -637,13 +637,13 @@ export default function PreschoolDetailPage({ preschoolId }: PreschoolDetailPage
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <button
-                onClick={() => onNavigate('demo')}
+                onClick={() => router.push('/demo-request')}
                 className="px-8 py-4 bg-white text-[#E82D86] rounded-full hover:bg-gray-100 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1 font-semibold"
               >
                 Learn About Klein Zibuo
               </button>
               <button
-                onClick={() => onNavigate('find-preschool')}
+                onClick={() => router.push('/find-preschool')}
                 className="px-8 py-4 bg-white/20 backdrop-blur-sm text-white rounded-full border-2 border-white hover:bg-white/30 transition-all duration-300 font-semibold"
               >
                 View More Schools

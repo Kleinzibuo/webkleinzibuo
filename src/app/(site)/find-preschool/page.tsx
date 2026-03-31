@@ -507,13 +507,13 @@ export default function FindPreschoolPage({ onNavigate }: FindPreschoolPageProps
                 </p>
                 <div className="flex flex-col sm:flex-row gap-4 justify-center">
                   <button
-                    onClick={() => onNavigate('demo')}
+                    onClick={() => router.push('demo-request')}
                     className="px-8 py-4 bg-[#E82D86] text-white rounded-full hover:bg-[#D01F76] transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1"
                   >
                     Request a Demo
                   </button>
                   <button
-                    onClick={() => onNavigate('contact')}
+                    onClick={() => router.push('contact')}
                     className="px-8 py-4 bg-white text-gray-700 rounded-full border-2 border-gray-200 hover:border-[#E82D86] hover:text-[#E82D86] transition-all duration-300"
                   >
                     Contact Us
