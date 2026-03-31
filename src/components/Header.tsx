@@ -65,6 +65,17 @@ export default function Header({
             >
               Features
             </button>
+             <button
+              onClick={() => onNavigate('find-preschool')}
+              className={`transition-colors cursor-pointer ${
+                currentPage === "find-preschool"
+                 ? 'text-[#E82D86]' 
+                 : 'text-gray-600 hover:text-[#E82D86]'
+              }`}
+              
+            >
+              Find Preschool
+            </button>
             <button
               onClick={() => onNavigate("about")}
               className={`transition-colors cursor-pointer ${
