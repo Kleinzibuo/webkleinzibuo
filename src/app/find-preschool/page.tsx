@@ -1,11 +1,9 @@
 'use client';
 
-import { motion } from 'motion/react';
+import { motion } from 'framer-motion';
 import { Search, MapPin, Phone, Mail, Globe, Users, Clock, Award, Star, Filter, Map, Grid3x3, ExternalLink, Check } from 'lucide-react';
 import { useState } from 'react';
-import { ImageWithFallback } from './figma/ImageWithFallback';
-import roselleImage from 'figma:asset/d5b5243738e731091ac6857b81464d8ecea96033.png';
-import eduKidsImage from 'figma:asset/093371cb837dd92a8c3de9738e44cc771e04d382.png';
+
 
 interface FindPreschoolPageProps {
   onNavigate: (page: string, preschoolId?: number) => void;
@@ -34,7 +32,7 @@ const preschools: Preschool[] = [
   {
     id: 1,
     name: "Roselle Pre-Primary School",
-    image: roselleImage,
+    image: "/images/d5b5243738e731091ac6857b81464d8ecea96033.png",
     location: "5 Roselle Road, Manors, Pinetown",
     area: "Pinetown",
     phone: "071 791 6078",
@@ -52,7 +50,7 @@ const preschools: Preschool[] = [
   {
     id: 2,
     name: "EduKids Learning Centre",
-    image: eduKidsImage,
+    image: "/images/093371cb837dd92a8c3de9738e44cc771e04d382.png",
     location: "45 Education Drive, Westville",
     area: "Westville",
     phone: "031 456 7890",
@@ -321,7 +319,7 @@ export default function FindPreschoolPage({ onNavigate }: FindPreschoolPageProps
                   {/* Image */}
                   <div className="relative h-48 overflow-hidden">
                     {typeof preschool.image === 'string' && preschool.image.startsWith('http') ? (
-                      <ImageWithFallback
+                      <img
                         src={preschool.image}
                         alt={preschool.name}
                         className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
