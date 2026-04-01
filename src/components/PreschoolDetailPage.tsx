@@ -117,20 +117,20 @@ const preschoolsData: Record<number, Preschool> = {
       qualified: "100% qualified with ECD certification"
     },
     pricing: {
-      fullDay: "R3,500/month",
-      halfDay: "R2,200/month",
-      registration: "R1,000 (once-off)"
+      fullDay: "/month",
+      halfDay: "/month",
+      registration: "(once-off)"
     }
   },
   2: {
     id: 2,
     name: "EduKids Learning Centre",
-    image: "/images/093371cb837dd92a8c3de9738e44cc771e04d382.png",
-    location: "45 Education Drive, Westville",
-    area: "Westville",
-    phone: "031 456 7890",
-    email: "hello@edukids.co.za",
-    website: "www.edukids.co.za",
+    image: "https://www.edukidspreprimary.co.za/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Flogo.7f7ca318.webp&w=1080&q=75",
+    location: "8 Harvey Road New Germany, KZN",
+    area: "New Germany",
+    phone: "+27 31 705 1286",
+    email: "info@edukidspreprimary.co.za",
+    website: "www.edukidspreprimary.co.za",
     ageRange: "2 - 5 years",
     capacity: 80,
     rating: 4.8,
@@ -142,9 +142,9 @@ const preschoolsData: Record<number, Preschool> = {
     distance: "5.7 km",
     gallery: [
       "/images/093371cb837dd92a8c3de9738e44cc771e04d382.png",
-      "https://images.unsplash.com/photo-1633219664515-2441564d0cc4?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxwcmVzY2hvb2wlMjBjaGlsZHJlbiUyMGxlYXJuaW5nfGVufDF8fHx8MTc3NDkwNDU4N3ww&ixlib=rb-4.1.0&q=80&w=1080",
-      "https://images.unsplash.com/photo-1633762348290-33a37f4d7fcf?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxwcmVzY2hvb2wlMjBvdXRkb29yJTIwcGxheWdyb3VuZHxlbnwxfHx8fDE3NzQ5MDMwNjB8MA&ixlib=rb-4.1.0&q=80&w=1080",
-      "https://images.unsplash.com/photo-1591391258564-be184031cb21?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxtb250ZXNzb3JpJTIwY2xhc3Nyb29tfGVufDF8fHx8MTc3NDk0NTE5OXww&ixlib=rb-4.1.0&q=80&w=1080",
+      "https://www.edukidspreprimary.co.za/images/gallery/facilities/01.jpg",
+      "https://www.edukidspreprimary.co.za/images/gallery/facilities/07.jpg",
+      "https://www.edukidspreprimary.co.za/images/gallery/facilities/03.jpg",
     ],
     curriculum: [
       "Bilingual instruction (English & Afrikaans)",
@@ -184,9 +184,9 @@ const preschoolsData: Record<number, Preschool> = {
       qualified: "All teachers hold ECD and bilingual certifications"
     },
     pricing: {
-      fullDay: "R4,200/month",
-      halfDay: "R2,800/month",
-      registration: "R1,200 (once-off)"
+      fullDay: "/month",
+      halfDay: "/month",
+      registration: "(once-off)"
     }
   }
 };
